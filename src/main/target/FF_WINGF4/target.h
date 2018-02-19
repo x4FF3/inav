@@ -120,6 +120,7 @@
 #define ADC_CHANNEL_3_PIN               PC3
 #define VBAT_ADC_CHANNEL                ADC_CHN_2
 #define CURRENT_METER_ADC_CHANNEL       ADC_CHN_1
+#define RSSI_ADC_CHANNEL                ADC_CHN_3
 
 #define DEFAULT_FEATURES        (FEATURE_VBAT | FEATURE_BLACKBOX)
 
