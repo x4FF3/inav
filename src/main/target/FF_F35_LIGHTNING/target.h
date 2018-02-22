@@ -25,11 +25,8 @@
 // #define LED1                    PC10 // Red LED
 // #define LED2                    PC10 // Green LED
 
-<<<<<<< HEAD:src/main/target/FF_WINGF4/target.h
-=======
 #define BEEPER                  PA1
 #define BEEPER_INVERTED
->>>>>>> upstream/development:src/main/target/FF_F35_LIGHTNING/target.h
 
 // MPU interrupt
 #define USE_EXTI
@@ -118,18 +115,10 @@
 
 #define BOARD_HAS_VOLTAGE_DIVIDER
 #define USE_ADC
-<<<<<<< HEAD:src/main/target/FF_WINGF4/target.h
-#define ADC_CHANNEL_1_PIN               PC2
-#define ADC_CHANNEL_2_PIN               PC1
-#define ADC_CHANNEL_3_PIN               PC3
-#define VBAT_ADC_CHANNEL                ADC_CHN_2
-#define CURRENT_METER_ADC_CHANNEL       ADC_CHN_1
-#define RSSI_ADC_CHANNEL                ADC_CHN_3
-=======
 #define ADC_CHANNEL_1_PIN               PC3
 #define ADC_CHANNEL_2_PIN               PC2
 #define ADC_CHANNEL_3_PIN               PC1
-#define AIRSPEED_ADC_CHANNEL            ADC_CHN_1
+#define RSSI_ADC_CHANNEL                ADC_CHN_1
 #define CURRENT_METER_ADC_CHANNEL       ADC_CHN_2
 #define VBAT_ADC_CHANNEL                ADC_CHN_3
 
@@ -137,7 +126,6 @@
 #define PITOT_I2C_BUS           BUS_I2C1
 
 #define DEFAULT_FEATURES        (FEATURE_VBAT | FEATURE_CURRENT_METER | FEATURE_OSD )
->>>>>>> upstream/development:src/main/target/FF_F35_LIGHTNING/target.h
 
 #define CURRENT_METER_SCALE     250
 
