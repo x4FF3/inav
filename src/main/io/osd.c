@@ -295,7 +295,7 @@ static void osdFormatDistanceSymbol(char *buff, int32_t dist)
         } else {
             // Show miles when dist >= 0.5mi
             tfp_sprintf(buff, "%d.%02d%c", centifeet / (100*FEET_PER_MILE),
-            abs(centifeet) % (100 * FEET_PER_MILE) / 10, SYM_MI);
+            (abs(centifeet) % (100 * FEET_PER_MILE)) / FEET_PER_MILE, SYM_MI);
         }
         break;
      case OSD_UNIT_UK:
@@ -307,7 +307,7 @@ static void osdFormatDistanceSymbol(char *buff, int32_t dist)
         } else {
             // Show kilometers when dist >= 1km
             tfp_sprintf(buff, "%d.%02d%c", dist / (100*METERS_PER_KILOMETER),
-                abs(dist) % (100 * METERS_PER_KILOMETER) / 100, SYM_KM);
+                (abs(dist) % (100 * METERS_PER_KILOMETER)) / METERS_PER_KILOMETER, SYM_KM);
          }
          break;
      }
@@ -1673,15 +1673,18 @@ void osdInit(displayPort_t *osdDisplayPortToUse)
 #endif
 
 #ifdef USE_STATS
-    displayWrite(osdDisplayPort, 3, ++y, "ODOMETER:");
-    if (osdConfig()->units == OSD_UNIT_IMPERIAL)
-        tfp_sprintf(string_buffer, "%d MI", statsConfig()->stats_total_dist / METERS_PER_MILE);
-    else
-        tfp_sprintf(string_buffer, "%d KM", statsConfig()->stats_total_dist / METERS_PER_KILOMETER);
-    displayWrite(osdDisplayPort, 13, y++,  string_buffer);
-    uint32_t tot_mins = statsConfig()->stats_total_time / 60;
-    tfp_sprintf(string_buffer, "%d:%02d H", tot_mins / 60, tot_mins % 60);
-    displayWrite(osdDisplayPort, 13, y++,  string_buffer);
+    if (statsConfig()->stats_enabled) {
+        displayWrite(osdDisplayPort, 3, ++y, "ODOMETER:");
+        if (osdConfig()->units == OSD_UNIT_IMPERIAL) {
+            tfp_sprintf(string_buffer, "%d MI", statsConfig()->stats_total_dist / METERS_PER_MILE);
+        } else {
+            tfp_sprintf(string_buffer, "%d KM", statsConfig()->stats_total_dist / METERS_PER_KILOMETER);
+        }
+        displayWrite(osdDisplayPort, 13, y++,  string_buffer);
+        uint32_t tot_mins = statsConfig()->stats_total_time / 60;
+        tfp_sprintf(string_buffer, "%d:%02d H", tot_mins / 60, tot_mins % 60);
+        displayWrite(osdDisplayPort, 13, y++,  string_buffer);
+    }
 #endif
 
     displayResync(osdDisplayPort);

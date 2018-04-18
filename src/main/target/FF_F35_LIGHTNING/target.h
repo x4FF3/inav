@@ -25,11 +25,9 @@
 // #define LED1                    PC10 // Red LED
 // #define LED2                    PC10 // Green LED
 
-<<<<<<< HEAD:src/main/target/FF_WINGF4/target.h
-=======
+
 #define BEEPER                  PA1
 #define BEEPER_INVERTED
->>>>>>> upstream/development:src/main/target/FF_F35_LIGHTNING/target.h
 
 // MPU interrupt
 #define USE_EXTI
@@ -136,14 +134,18 @@
 #define USE_PITOT_MS4525
 #define PITOT_I2C_BUS           BUS_I2C1
 
+<<<<<<< HEAD
 #define DEFAULT_FEATURES        (FEATURE_VBAT | FEATURE_CURRENT_METER | FEATURE_OSD )
 >>>>>>> upstream/development:src/main/target/FF_F35_LIGHTNING/target.h
+=======
+#define DEFAULT_FEATURES        (FEATURE_TX_PROF_SEL | FEATURE_VBAT | FEATURE_CURRENT_METER | FEATURE_OSD | FEATURE_GPS | FEATURE_TELEMETRY)
+>>>>>>> upstream/master
 
 #define CURRENT_METER_SCALE     250
 
 // Number of available PWM outputs
 #define MAX_PWM_OUTPUT_PORTS       6
-#define USABLE_TIMER_CHANNEL_COUNT 6
+#define USABLE_TIMER_CHANNEL_COUNT 7
 
 #define USE_SERIAL_4WAY_BLHELI_INTERFACE
 
@@ -152,5 +154,5 @@
 #define TARGET_IO_PORTC         0xffff
 #define TARGET_IO_PORTD         (BIT(2))
 
-#define USED_TIMERS             ( TIM_N(3) | TIM_N(4) | TIM_N(8))
+#define USED_TIMERS             ( TIM_N(2) | TIM_N(3) | TIM_N(4) | TIM_N(8) )
 
