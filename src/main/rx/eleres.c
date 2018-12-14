@@ -258,7 +258,7 @@ static void telemetryRX(void)
     static int32_t presfil;
     static int16_t thempfil;
     uint8_t i, themp=90, wii_flymode=0;
-    uint16_t pres,curr = abs(amperage) / 10;
+    uint16_t pres,curr = abs(getAmperage()) / 10;
     union {
         int32_t val;
         uint8_t b[4];
@@ -294,7 +294,7 @@ static void telemetryRX(void)
         rfTxBuffer[0] = 0x54;
         rfTxBuffer[1] = localRssi;
         rfTxBuffer[2] = quality;
-        rfTxBuffer[3] = vbat / 10;
+        rfTxBuffer[3] = getBatteryVoltage() / 10;
         rfTxBuffer[4] = themp;
         rfTxBuffer[5] = curr & 0xff;
         rfTxBuffer[6] = pres>>8;
@@ -325,7 +325,7 @@ static void telemetryRX(void)
     case 2:
         if (sensors(SENSOR_GPS)) {
             uint16_t gpsspeed =  (gpsSol.groundSpeed*9L)/250L;
-            int16_t course = (gpsSol.groundCourse+360)%360;
+            int16_t course = (gpsSol.groundCourse/10 + 360)%360;
 #ifdef USE_NAV
             int32_t alt = getEstimatedActualPosition(Z);
 #else

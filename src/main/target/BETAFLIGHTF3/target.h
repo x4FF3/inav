@@ -26,8 +26,6 @@
 #define BEEPER                  PC15
 #define BEEPER_INVERTED
 
-#define USABLE_TIMER_CHANNEL_COUNT 10
-
 #define MPU6000_CS_PIN          PA15
 #define MPU6000_SPI_BUS    BUS_SPI1
 
@@ -42,7 +40,7 @@
 // MPU6000 interrupts
 #define USE_MPU_DATA_READY_SIGNAL
 #define EXTI_CALLBACK_HANDLER_COUNT 1
-#define MPU_INT_EXTI                PC13
+#define GYRO_INT_EXTI                PC13
 #define USE_EXTI
 
 //#define USE_ESC_SENSOR // XXX
@@ -118,11 +116,10 @@
 #define CURRENT_METER_ADC_CHANNEL   ADC_CHN_2
 #define RSSI_ADC_CHANNEL            ADC_CHN_3
 
-//#define LED_STRIP
+//#define USE_LED_STRIP
 
 #define ENABLE_BLACKBOX_LOGGING_ON_SDCARD_BY_DEFAULT
 
-#define DEFAULT_RX_FEATURE      FEATURE_RX_SERIAL
 #define SERIALRX_PROVIDER       SERIALRX_SBUS
 #define SERIALRX_UART           SERIAL_PORT_USART2
 //#define SBUS_TELEMETRY_UART     SERIAL_PORT_USART1 // XXX
@@ -140,5 +137,3 @@
 #define TARGET_IO_PORTF         (BIT(0)|BIT(1)|BIT(3)|BIT(4))
 
 #define MAX_PWM_OUTPUT_PORTS 8
-
-#define USED_TIMERS             ( TIM_N(1) | TIM_N(2) | TIM_N(3) | TIM_N(4) | TIM_N(8) | TIM_N(15) | TIM_N(16) | TIM_N(17) )

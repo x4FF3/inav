@@ -21,7 +21,7 @@
 
 #include "platform.h"
 
-#if defined(USE_TELEMETRY) && defined(USE_TELEMETRY_CRSF)
+#if defined(USE_TELEMETRY) && defined(USE_SERIALRX_CRSF) && defined(USE_TELEMETRY_CRSF)
 
 #include "build/build_config.h"
 #include "build/version.h"
@@ -57,7 +57,13 @@
 #include "telemetry/telemetry.h"
 
 
-#define CRSF_CYCLETIME_US                   100000 // 100ms, 10 Hz
+#define CRSF_CYCLETIME_US                   100000  // 100ms, 10 Hz
+
+// According to TBS: "CRSF over serial should always use a sync byte at the beginning of each frame.
+// To get better performance it's recommended to use the sync byte 0xC8 to get better performance"
+//
+// Digitalentity: Using frame address byte as a sync field looks somewhat hacky to me, but seems it's needed to get CRSF working properly
+#define CRSF_TELEMETRY_SYNC_BYTE            0xC8
 
 static bool crsfTelemetryEnabled;
 static uint8_t crsfCrc;
@@ -69,7 +75,7 @@ static void crsfInitializeFrame(sbuf_t *dst)
     dst->ptr = crsfFrame;
     dst->end = ARRAYEND(crsfFrame);
 
-    sbufWriteU8(dst, CRSF_ADDRESS_BROADCAST);
+    sbufWriteU8(dst, CRSF_TELEMETRY_SYNC_BYTE);
 }
 
 static void crsfSerialize8(sbuf_t *dst, uint8_t v)
@@ -166,12 +172,12 @@ void crsfFrameBatterySensor(sbuf_t *dst)
     // use sbufWrite since CRC does not include frame length
     sbufWriteU8(dst, CRSF_FRAME_BATTERY_SENSOR_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
     crsfSerialize8(dst, CRSF_FRAMETYPE_BATTERY_SENSOR);
-    crsfSerialize16(dst, vbat / 10); // vbat is in units of 0.01V
-    crsfSerialize16(dst, amperage / 10);
+    crsfSerialize16(dst, getBatteryVoltage() / 10); // vbat is in units of 0.01V
+    crsfSerialize16(dst, getAmperage() / 10);
     const uint8_t batteryRemainingPercentage = calculateBatteryPercentage();
-    crsfSerialize8(dst, (mAhDrawn >> 16));
-    crsfSerialize8(dst, (mAhDrawn >> 8));
-    crsfSerialize8(dst, (uint8_t)mAhDrawn);
+    crsfSerialize8(dst, (getMAhDrawn() >> 16));
+    crsfSerialize8(dst, (getMAhDrawn() >> 8));
+    crsfSerialize8(dst, (uint8_t)getMAhDrawn());
     crsfSerialize8(dst, batteryRemainingPercentage);
 }
 
